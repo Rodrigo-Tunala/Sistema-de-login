@@ -9,14 +9,15 @@
 </head>
 <body>
     <main>
-        <h2>Criar conta</h2>
+        <h2>Entrar</h2>
         <form action="<?= $_SERVER["PHP_SELF"] ?>" method="post">
             <label for="email">Digite seu email:</label>
             <input type="text" name="email" id="idemail">
             <label for="password">Digite uma senha:</label>
             <input type="password" name="password" id="idpassword">
-            <input type="submit" value="Logar">
-            <button type="button">Criar conta!</button>
+            <input type="submit" value="Entrar">
+            <label for="cadastro">Não é cadastrado?(crie sua conta aqui)</label>
+            <a href="http://localhost/cursophp/projetos/login/cadastro.php"><input type="button" value="Criar conta!"></a>
         </form>
         
         <?php 
@@ -31,15 +32,19 @@
             $query = "SELECT * FROM login WHERE email = '$email' LIMIT 1";
             $stmt = $pdo->prepare($query);
             $stmt->execute();
-            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);;
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            
-            if (password_verify($password, $usuario['password'])){
-                echo $return = "usuário logado!";
-                header("Location: inicial.php");
-                        exit;
-            }else {
-                echo $return = "Falha no login!</br> Verifique se o e-mail e a senha estão corretos";
+            if ($usuario && ($email == $usuario['email'])){
+
+                if ($usuario && password_verify($password, $usuario['password'])){
+                    echo $return = "usuário logado!";
+                    header("Location: inicial.php");
+                    exit;
+                }else {
+                    echo $return = "Falha no login!</br> Verifique se sua senha está correta";
+                }
+            } else{
+                echo $return = "Falha no login!</br>Email não cadastrado crie uma conta!";
             }
         }
         ?>

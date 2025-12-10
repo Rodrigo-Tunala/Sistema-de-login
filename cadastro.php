@@ -16,8 +16,9 @@
             <input type="password" name="password" id="idpassword">
             <label for="confpass">Confirme sua senha:</label>
             <input type="password" name="confpass" id="idconfpass">
-            <input type="submit" value="Cadastra">
+            <a href="http://localhost/cursophp/projetos/login/index.php"><input type="submit" value="Cadastra"></a>
         </form>
+        
     </main>
 </body>
 </html>
