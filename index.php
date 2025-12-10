@@ -17,7 +17,7 @@
             <input type="password" name="password" id="idpassword">
             <input type="submit" value="Entrar">
             <label for="cadastro">Não é cadastrado?(crie sua conta aqui)</label>
-            <a href="http://localhost/cursophp/projetos/login/cadastro.php"><input type="button" value="Criar conta!"></a>
+            <a href="cadastro.php"><input type="button" value="Criar conta!"></a>
         </form>
         
         <?php 

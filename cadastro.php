@@ -2,14 +2,15 @@
     $erro = "";
     $email_preenchido = "";
     $sucesso = "";
-
+    $email = "";
+    $password = "";
+    $confpass = "";
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
-        $email = trim($_POST["email"] ?? "");
+        $email = trim($_POST["email"]);
         $password = $_POST["password"] ?? "";
         $confpass = $_POST["confpass"] ?? "";
-        $email_preenchido = htmlspecialchars($email);
-
+        
         if (empty($email) || empty($password) || empty($confpass)){
             $erro = "";
             $erro = "Por Favor preencha todos os campos." ;
@@ -52,12 +53,12 @@
         <h2>Criar conta</h2>
         <form action="<?= $_SERVER["PHP_SELF"] ?>" method="post">
             <label for="email">Digite seu email:</label>
-            <input type="text" name="email" id="idemail">
+            <input type="text" name="email" id="idemail" value="<?= $email ?>">
             <label for="password">Digite uma senha:</label>
             <input type="password" name="password" id="idpassword">
             <label for="confpass">Confirme sua senha:</label>
             <input type="password" name="confpass" id="idconfpass">
-            <a href="http://localhost/cursophp/projetos/login/index.php"><input type="submit" value="Cadastra"></a>
+            <a href="index.php"><input type="submit" value="Cadastra"></a>
         </form>
 
     </main>
