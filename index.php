@@ -41,10 +41,10 @@
                     header("Location: inicial.php");
                     exit;
                 }else {
-                    echo $return = "Falha no login!</br> Verifique se sua senha está correta";
+                    echo $return = "Falha no login!</br> Email ou senha inválidos!";
                 }
             } else{
-                echo $return = "Falha no login!</br>Email não cadastrado crie uma conta!";
+                echo $return = "Falha no login!</br>Email ou senha inválidos!";
             }
         }
         ?>
