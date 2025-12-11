@@ -6,15 +6,17 @@
     $password = "";
     $confpass = "";
 
+
+    
     if($_SERVER["REQUEST_METHOD"] == "POST")
         $email = trim($_POST["email"]);
         $password = $_POST["password"] ?? "";
         $confpass = $_POST["confpass"] ?? "";
-        
+    
         if (empty($email) || empty($password) || empty($confpass)){
             $erro = "";
             $erro = "Por Favor preencha todos os campos." ;
-
+            
         } elseif ($password != $confpass){
             $erro = "";
             $erro = "A senha e a comfirmação não são iguais";
@@ -23,6 +25,16 @@
             
         }
 
+    require 'conexao.php';
+    
+    $query = "SELECT * FROM login WHERE email = '$email'";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($usuario && $email == $usuario['email']){
+        $erro = "Email já cadastrado!";
+    }
 
     if (empty($erro)){
         $sucesso = "Cadastrado com sucesso.";
