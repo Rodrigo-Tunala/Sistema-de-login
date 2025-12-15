@@ -1,10 +1,10 @@
 <?php 
 
-    $servername = "localhost";
+    $servername = "db";
     $username = "root";
-    $password = "";
+    $password = "123456";
     $banco = "teste";
-    $port = "3308";
+    $port = "3306";
 
     try {
         $pdo = new PDO("mysql:host=$servername;port=$port;dbname=$banco;charset=utf8", $username, $password);

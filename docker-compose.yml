@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # 1. Serviço do Banco de Dados MySQL
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      # Essas variáveis configuram o MySQL.
+      # Precisam ser as mesmas usadas no seu conexao.php, mas sem a porta.
+      MYSQL_ROOT_PASSWORD: "123456"  # Senha vazia, como no seu arquivo
+      MYSQL_DATABASE: teste
+    ports:
+      # Mapeia a porta 3306 padrão do MySQL no container para a 3308 na sua máquina
+      # Isso mantém a familiaridade com o seu ambiente local
+      - "3308:3306"
+    volumes:
+      # Armazena os dados do banco de forma persistente no seu PC
+      - db_data:/var/lib/mysql
+      # 2. NOVO: Monta sua pasta de scripts para execução automática
+      - ./db_init:/docker-entrypoint-initdb.d
+      
+  # 2. Serviço da Aplicação PHP (web)
+  web:
+    build: .  # Usa o Dockerfile que criamos anteriormente
+    container_name: app-php
+    ports:
+      - "8080:80" # Mapeia a porta do container (80) para a sua máquina (8080)
+    depends_on:
+      - db # Garante que o container 'db' suba antes deste
+    volumes:
+      # Monta o seu código-fonte local dentro do container.
+      # Isso permite que você edite o código na sua máquina e veja as mudanças no container instantaneamente, sem precisar reconstruir a imagem.
+      - .:/var/www/html
+      
+# Volumes para persistência de dados
+volumes:
+  db_data:
