@@ -1,70 +1,133 @@
-# Sistema de Login
+# 🔒 Sistema de Login PHP com Docker Compose
 
-🚀 Um sistema de autenticação de usuários simples em **PHP , desenvolvido para gerenciar cadastro e login de usuários.
+Projeto de demonstração de um **sistema simples de login e cadastro** desenvolvido em **PHP**, utilizando **Docker Compose** para criar um ambiente de desenvolvimento isolado, rápido e consistente.
 
-## 📌 Descrição
+## 🛠️ Tecnologias Utilizadas
 
-Este projeto é um **sistema de login funcional** feito com PHP, ideal para estudos e prática de autenticação. Ele permite que usuários **cadastrem suas informações**, façam **login** e acessem uma página inicial protegida. :contentReference[oaicite:1]{index=1}
+- PHP 8.x (Apache)
+- MySQL 8.0
+- Docker
+- Docker Compose
 
-## 🧰 Tecnologias
+## 🚀 Como Executar o Projeto
 
-O projeto foi desenvolvido com:
+**Siga os passos abaixo para rodar o projeto localmente.**
 
-- PHP  
-- HTML  
-- CSS       `# O CSS não foi feito por mim.Usei um pronto do curso do Gustavo Guanabara.` 
-- MySQL ou outro SGBD (via conexão no `conexao.php`) :contentReference[oaicite:2]{index=2}
+## ✅ Pré-requisitos
 
-## 📂 Estrutura do projeto
+Instale os seguintes softwares:
 
-| Arquivo | Função |
-|---------|--------|
-| `index.php` | Página de login |
-| `cadastro.php` | Formulário de cadastro |
-| `conexao.php` | Conexão com o banco de dados |
-| `inicial.php` | Página inicial após login |
-| `style.css` | Estilos de layout |
-| `enviardb.php` | Script para processar e gravar dados no banco |
-| `LICENSE` | Licença MIT | :contentReference[oaicite:3]{index=3}
+- Docker Engine  
+  https://docs.docker.com/engine/install/
 
-## 🛠️ Como rodar
+- Docker Compose (V2)  
+  https://docs.docker.com/compose/install/
 
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/Rodrigo-Tunala/Sistema-de-login.git
-  
-  Coloque os arquivos em um servidor local (como XAMPP, MAMP ou WAMP).
+## 📥 1. Clonar o Repositório
 
-2. Crie um banco de dados no MySQL e configure conexao.php com seus parâmetros:
+```bash
+git clone https://github.com/Rodrigo-Tunala/Sistema-de-login.git
+cd Sistema-de-login
+```
+## 🐳 2. Subir o Ambiente Docker
+- **Execute o comando abaixo na raiz do projeto:**
 
-  - host
+```bash
+docker-compose up -d --build
+```
 
-  - usuário
+- **⚠️ Resetar o Banco de Dados (Opcional)**
+```bash
+docker-compose down -v
+```
+O parâmetro ```-v``` remove o volume do MySQL e apaga todos os dados.
 
-  - senha
+## 🌐 3. Acessar a Aplicação
+- **Acesse no navegador:**
 
-  - nome do banco
+```bash
+http://localhost:8080
+```
+## ⚙️ Arquitetura do Projeto
 
-3. Importe a tabela de usuários no banco (ou crie conforme sua necessidade).
+O ambiente Docker é composto por dois serviços conectados em rede interna.
 
-Acesse o sistema via navegador:
-  ```bash 
-    http://localhost/Sistema-de-login/
-  ```
+- **📦 Serviços**
 
-Obs.: Você pode criar a tabela usuarios com campos como id, nome, email e senha para funcionar corretamente.
+| Serviço | Container  | Porta | Função       |
+| ------- | ---------- | ----- | ------------ |
+| web     | webapp-php | 8080  | Apache + PHP |
+| db      | mysql-db   | 3308  | MySQL 8      |
 
-📌 Funcionalidades
+- **🔐 Configurações de Conexão com o Banco**
 
-✔ Cadastro de usuário
-✔ Login de usuário
-✔ Conexão com banco de dados
-✔ Redirecionamento após login
+As configurações estão sincronizadas entre ```conexao.php``` e ```docker-compose.yml```.
 
-🤝 Contribuição
 
-Se quiser contribuir com melhorias ou novas funcionalidades (como criptografia de senha, validação, recuperação de senha, etc.), fique à vontade para abrir um Pull Request!
 
-📄 Licença
+| Variável | Valor  |
+| -------- | ------ |
+| Host     | db     |
+| Database | teste  |
+| Usuário  | root   |
+| Senha    | 123456 |
 
-Este projeto está licenciado sob a MIT License — consulte o arquivo LICENSE para mais detalhes.
+
+
+
+## 💾 Volumes e Persistência
+- **Código da Aplicação**
+```bash
+.:/var/www/html
+```
+Permite edição do código em tempo real.
+
+- **Inicialização do Banco**
+```
+./db_init:/docker-entrypoint-initdb.d
+```
+Executa automaticamente o script SQL.
+
+- **Dados do MySQL**
+```
+db_data
+```
+Volume persistente do banco de dados.
+
+## 👨‍💻 Comandos Essenciais
+- **Parar os Containers**
+
+```bash
+docker-compose down
+```
+- **Parar e Apagar os Dados do Banco**
+```bash
+
+docker-compose down -v
+```
+- **Acessar o Terminal do Container PHP**
+
+```bash
+
+docker-compose exec web bash
+```
+- **Acessar o MySQL**
+```bash
+
+docker-compose exec db mysql -u root -p
+```
+- **Senha do banco:**
+
+```
+123456
+```
+## 📄 Licença
+**Este projeto está sob a licença MIT.**
+
+✨ Observações Finais
+Projeto ideal para estudos de:
+- PHP
+- MySQL
+- Docker
+
+Base inicial para sistemas maiores.

@@ -1,3 +1,30 @@
+<?php 
+require("conexao.php");
+
+if(isset($_POST["email"])){
+
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $return = "";
+
+    $query = "SELECT * FROM login WHERE email = '$email' LIMIT 1";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+    if ($usuario && ($email == $usuario['email'])){
+
+        if ($usuario && password_verify($password, $usuario['password'])){
+            header("Location: inicial.php");
+            exit;
+        }else {
+            echo $return = "Falha no login!</br> Email ou senha inválidos!";
+        }
+    } else{
+        echo $return = "Falha no login!</br>Email ou senha inválidos!";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -19,35 +46,8 @@
             <label for="cadastro">Não é cadastrado?(crie sua conta aqui)</label>
             <a href="cadastro.php"><input type="button" value="Criar conta!"></a>
         </form>
-        
-        <?php 
-        require("conexao.php");
 
-        if(isset($_POST["email"])){
-
-            $email = $_POST["email"];
-            $password = $_POST["password"];
-            $return = "";
-
-            $query = "SELECT * FROM login WHERE email = '$email' LIMIT 1";
-            $stmt = $pdo->prepare($query);
-            $stmt->execute();
-            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if ($usuario && ($email == $usuario['email'])){
-
-                if ($usuario && password_verify($password, $usuario['password'])){
-                    echo $return = "usuário logado!";
-                    header("Location: inicial.php");
-                    exit;
-                }else {
-                    echo $return = "Falha no login!</br> Email ou senha inválidos!";
-                }
-            } else{
-                echo $return = "Falha no login!</br>Email ou senha inválidos!";
-            }
-        }
-        ?>
+        <?= $return ?>
     </main>
     
     
